@@ -2,7 +2,7 @@
 <?php
     include "summoner.php";
 
-    $summoner_test = new Summoner($_POST["summoner"]);
+    $summoner_test = new Summoner($_GET["summoner"]);
     // echo "<h3>Summoner: ".$summoner_test->name."</h3><br>";
     // echo "<img src=".$summoner_test->getChampIcon($summoner_test->mastery_info[0]->championId)." alt=\"ChampionIcon\">";
     // echo "<br> Mastery Points: ".number_format($summoner_test->mastery_info[0]->championPoints, 0,'.',',');
@@ -46,7 +46,7 @@
                     </div>
                 </li>
             </ul>
-            <form class="form-inline my-2 my-lg-0" action="homework4.php" method="post">
+            <form class="form-inline my-2 my-lg-0" action="homework4.php" method="get">
                 <input class="form-control mr-sm-2" type="text" placeholder="Summoner" name="summoner">
                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
             </form>
@@ -57,7 +57,13 @@
     <?php
         // echo $_POST["summoner"]
         // $summoner_test = new Summoner($_POST["summoner"]);
-        echo "<h3>Summoner: ".$summoner_test->name."</h3><br>";
+        $champ_array = $summoner_test->GetChamps();
+        if($summoner_test->mastery_info[0]->championId == "62")
+        {
+            $champ_array["62"] = "Wukong";
+        }
+        echo "<b>Summoner: ".$summoner_test->name."<br>";
+        echo $champ_array[$summoner_test->mastery_info[0]->championId]."</b><br>";
         echo "<img src=".$summoner_test->getChampIcon($summoner_test->mastery_info[0]->championId)." alt=\"ChampionIcon\">";
         echo "<br> Mastery Points: ".number_format($summoner_test->mastery_info[0]->championPoints, 0,'.',',');
     ?>

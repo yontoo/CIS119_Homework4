@@ -1,4 +1,5 @@
 <?php
+
         class Summoner
         {
             public $name;
@@ -36,10 +37,10 @@
             {
                 //TODO: Get this function working. Populate an array with champion info, using their ID as the key and their name as the value.
                 $this->champ_info = $this->getJson("http://ddragon.leagueoflegends.com/cdn/".$this->curr_ver."/data/en_US/champion.json");
-                $champions = [];
-                foreach($this->champ_info->data as $x)
+                $champions = array();
+                foreach($this->champ_info->data as $value)
                 {
-                    $champions[$x->key] = $x->id;
+                    $champions[$value->key] = $value->id;
                 }
                 //For debugging.
                 // echo "<pre>";
