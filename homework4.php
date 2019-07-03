@@ -63,6 +63,7 @@
             $champ_array["62"] = "Wukong";
         }
         echo "<b>Summoner: ".$summoner_test->name."<br>";
+        echo "<img style=\"height:120px; width:120px;\" src=".$summoner_test->getProfileIcon()." alt=\"ProfileIcon\"><br>";
         echo $champ_array[$summoner_test->mastery_info[0]->championId]."</b><br>";
         echo "<img src=".$summoner_test->getChampIcon($summoner_test->mastery_info[0]->championId)." alt=\"ChampionIcon\">";
         echo "<br> Mastery Points: ".number_format($summoner_test->mastery_info[0]->championPoints, 0,'.',',');
