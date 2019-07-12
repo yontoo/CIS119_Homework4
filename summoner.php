@@ -4,13 +4,14 @@
         {
             public $name;
             public $level;
-            private $profile_icon;
-            private $summ_id;
-            private $json_link;
-            private $key;
+            public $rank_info;
             public $json;
-
-
+            public $summ_id;
+            private $json_link;
+            private $rank_json;
+            private $profile_icon;
+            private $key;
+            
             public function getJson($json_link)
             {
                 $this->json_contents=file_get_contents($json_link);
@@ -25,7 +26,7 @@
             public function getChampIcon($champ_id)
             {
                 $champ_array = $this->getChamps();
-                return "http://ddragon.leagueoflegends.com/cdn/".$this->curr_ver."/img/champion/".$champ_array[$champ_id].".png";
+                return "http://ddragon.leagueoflegends.com/cdn/".$this->curr_ver."/img/champion/".$champ_array[$champ_id]["id"].".png";
             }
 
             public function getId()
@@ -41,14 +42,17 @@
 
             public function getChamps()
             {
-                //TODO: Get this function working. Populate an array with champion info, using their ID as the key and their name as the value.
+                //This function populates an array with champion info, using their ID as the key and their name as the value.
                 $this->champ_info = $this->getJson("http://ddragon.leagueoflegends.com/cdn/".$this->curr_ver."/data/en_US/champion.json");
                 $champions = array();
+
+                    
                 foreach($this->champ_info->data as $value)
                 {
-                    $champions[$value->key] = $value->id;
+                    $champions[$value->key] = array("id" => $value->id, "name" => $value->name);
                 }
-                //For debugging.
+
+                // For debugging.
                 // echo "<pre>";
                 // print_r($champions);
                 // echo "</pre>";
@@ -65,7 +69,16 @@
                 $this->summ_id = $this->summ_info->id;
                 $this->level = $this->summ_info->summonerLevel;
                 $this->mastery_info = $this->getMastery();
+                $this->rank_json = $this->getJson("https://na1.api.riotgames.com/lol/league/v4/entries/by-summoner/".$this->summ_id."?api_key=".$this->key);
+                if(!empty($this->rank_json))
+                {
+                    $this->winrate = number_format(($this->rank_json[0]->wins/($this->rank_json[0]->wins + $this->rank_json[0]->losses))*100);
+                    $this->rank_info = array('tier'=>$this->rank_json[0]->tier, 'division'=>$this->rank_json[0]->rank, 'winrate'=>$this->winrate);
+                }
                 $this->curr_ver = $this->getJson("https://ddragon.leagueoflegends.com/api/versions.json")[0];
+                // echo "<pre>";
+                // print_r($this->rank_json);
+                
             }
             private function getMastery()
             {

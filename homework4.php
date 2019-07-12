@@ -1,17 +1,19 @@
 <!-- Just as a precursor, some of the functions don't work without a valid API key inside of a file called "apikey.php". -->
+
+
+<!--TODO: 
+    Add active match search
+        -Add table of participants, 1 column per team and 1 row per player
+    More bootstrap
+    Maybe TFT if they create an API for it
+    Flesh out rank information for player
+     -->
 <?php
     include "summoner.php";
+    include "activegame.php";
 
+    $some_game = new ActiveGame($_GET["summoner"]);
     $summoner_test = new Summoner($_GET["summoner"]);
-    // echo "<h3>Summoner: ".$summoner_test->name."</h3><br>";
-    // echo "<img src=".$summoner_test->getChampIcon($summoner_test->mastery_info[0]->championId)." alt=\"ChampionIcon\">";
-    // echo "<br> Mastery Points: ".number_format($summoner_test->mastery_info[0]->championPoints, 0,'.',',');
-
-    // echo "<br>".$summoner_test->getId();
-    // echo "<br>".$summoner_test->level."<br>";
-    // var_dump("<pre>");
-    // var_dump($summoner_test);
-
 ?>
 
 <!DOCTYPE html>
@@ -58,15 +60,29 @@
         // echo $_POST["summoner"]
         // $summoner_test = new Summoner($_POST["summoner"]);
         $champ_array = $summoner_test->GetChamps();
-        if($summoner_test->mastery_info[0]->championId == "62")
+        if($some_game->game_info == null)
         {
-            $champ_array["62"] = "Wukong";
+            echo $some_game->error;
+        }
+        else
+        {
+            echo "<pre>";
+            print_r($some_game->game_info);
         }
         echo "<b>Summoner: ".$summoner_test->name."<br>";
         echo "<img style=\"height:120px; width:120px;\" src=".$summoner_test->getProfileIcon()." alt=\"ProfileIcon\"><br>";
-        echo $champ_array[$summoner_test->mastery_info[0]->championId]."</b><br>";
+        echo $champ_array[$summoner_test->mastery_info[0]->championId]["name"]."</b><br>";
         echo "<img src=".$summoner_test->getChampIcon($summoner_test->mastery_info[0]->championId)." alt=\"ChampionIcon\">";
         echo "<br> Mastery Points: ".number_format($summoner_test->mastery_info[0]->championPoints, 0,'.',',');
+        if(empty($summoner_test->rank_info))
+        {
+            echo "<b><br>This summoner has not played 8 ranked games yet.</b>";
+        }
+        else
+        {
+            echo "<br>Tier: ".$summoner_test->rank_info["tier"]."<br>Division: ".$summoner_test->rank_info["division"];
+            echo "<br>Winrate: ".$summoner_test->rank_info["winrate"]."%";
+        }
     ?>
     </div>
 
