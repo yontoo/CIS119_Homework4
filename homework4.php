@@ -66,8 +66,20 @@
         }
         else
         {
-            echo "<pre>";
-            print_r($some_game->game_info);
+            //TODO: Create a table to display current game participants.
+            // echo "<pre>";
+            // print_r($some_game->game_info);
+            // echo "<table>";
+            // foreach($some_game->game_info->participants as $players)
+            // {
+            //     $which_player = 0;
+            //     if($players[$which_player])
+            //     {}
+            //     $which_player++;
+            // }
+
+
+            // echo "</table>";
         }
         echo "<b>Summoner: ".$summoner_test->name."<br>";
         echo "<img style=\"height:120px; width:120px;\" src=".$summoner_test->getProfileIcon()." alt=\"ProfileIcon\"><br>";
