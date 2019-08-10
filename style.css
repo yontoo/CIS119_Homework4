@@ -1,0 +1,8 @@
+/* table, th, td{
+    border: 1px solid black;
+} */
+
+#game, th, td{
+    border: 1px solid black;
+    margin: 1em auto 1em auto;
+}

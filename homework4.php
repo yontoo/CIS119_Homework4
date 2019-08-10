@@ -14,13 +14,38 @@
 
     $some_game = new ActiveGame($_GET["summoner"]);
     $summoner_test = new Summoner($_GET["summoner"]);
+
+    function print_players()
+    {
+        global $some_game;
+        echo "<table id=\"game\">";
+        echo <<<_END
+        <tr>
+            <th>Team 1</th>
+            <th>Team 2</th>
+        </tr> 
+_END;
+        for($x = 0; $x < 5; $x++)
+        {
+            $players = $some_game->game_info->participants;
+            // echo "<pre>";
+            // print_r($some_game->game_info->participants);
+            // var_dump($some_game);
+            echo <<<_END
+            <tr>
+                <td>
+_END;
+            echo $players[$x]->summonerName."</td><td>".$players[$x+5]->summonerName."</td></tr>";
+        }   
+        echo "</table>";
+    }
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
     <head>
          <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
+         <link rel="stylesheet" type="text/css" href="style.css">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
         <title>
@@ -64,26 +89,10 @@
         {
             echo $some_game->error;
         }
-        else
-        {
-            //TODO: Create a table to display current game participants.
-            // echo "<pre>";
-            // print_r($some_game->game_info);
-            // echo "<table>";
-            // foreach($some_game->game_info->participants as $players)
-            // {
-            //     $which_player = 0;
-            //     if($players[$which_player])
-            //     {}
-            //     $which_player++;
-            // }
-
-
-            // echo "</table>";
-        }
-        echo "<b>Summoner: ".$summoner_test->name."<br>";
+        echo "<b>Summoner: ".$summoner_test->name."<br></b>";
         echo "<img style=\"height:120px; width:120px;\" src=".$summoner_test->getProfileIcon()." alt=\"ProfileIcon\"><br>";
-        echo $champ_array[$summoner_test->mastery_info[0]->championId]["name"]."</b><br>";
+      
+        echo "<b>".$champ_array[$summoner_test->mastery_info[0]->championId]["name"]."</b><br>";
         echo "<img src=".$summoner_test->getChampIcon($summoner_test->mastery_info[0]->championId)." alt=\"ChampionIcon\">";
         echo "<br> Mastery Points: ".number_format($summoner_test->mastery_info[0]->championPoints, 0,'.',',');
         if(empty($summoner_test->rank_info))
@@ -94,6 +103,10 @@
         {
             echo "<br>Tier: ".$summoner_test->rank_info["tier"]."<br>Division: ".$summoner_test->rank_info["division"];
             echo "<br>Winrate: ".$summoner_test->rank_info["winrate"]."%";
+        }
+        if($some_game->game_info != null)
+        {
+            print_players();
         }
     ?>
     </div>
