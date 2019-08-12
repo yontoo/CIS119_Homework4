@@ -17,8 +17,10 @@
 
     function print_players()
     {
-        global $some_game;
-        echo "<table id=\"game\">";
+        global $some_game, $summoner_test;
+        // echo "<pre>";
+        // print_r($some_game->game_info->participants);
+        echo "<div id=\"game\"><h2>Current Game</h2><table id=\"game\">";
         echo <<<_END
         <tr>
             <th>Team 1</th>
@@ -28,16 +30,13 @@ _END;
         for($x = 0; $x < 5; $x++)
         {
             $players = $some_game->game_info->participants;
-            // echo "<pre>";
-            // print_r($some_game->game_info->participants);
-            // var_dump($some_game);
             echo <<<_END
             <tr>
                 <td>
 _END;
-            echo $players[$x]->summonerName."</td><td>".$players[$x+5]->summonerName."</td></tr>";
+            echo "<img style=\"height:2.1875em; width:2.1875em;\" src=".$summoner_test->getChampIcon($players[$x]->championId)." alt=\"ChampionIcon\">".$players[$x]->summonerName."</td><td><img style=\"height:2.1875em; width:2.1875em;\" src=".$summoner_test->getChampIcon($players[$x+5]->championId)." alt=\"ChampionIcon\">".$players[$x+5]->summonerName."</td></tr>";
         }   
-        echo "</table>";
+        echo "</table></div>";
     }
 ?>
 
@@ -92,17 +91,76 @@ _END;
         echo "<b>Summoner: ".$summoner_test->name."<br></b>";
         echo "<img style=\"height:120px; width:120px;\" src=".$summoner_test->getProfileIcon()." alt=\"ProfileIcon\"><br>";
       
-        echo "<b>".$champ_array[$summoner_test->mastery_info[0]->championId]["name"]."</b><br>";
+        echo "<b>Highest Champion Mastery: ".$champ_array[$summoner_test->mastery_info[0]->championId]["name"]."</b><br>";
         echo "<img src=".$summoner_test->getChampIcon($summoner_test->mastery_info[0]->championId)." alt=\"ChampionIcon\">";
         echo "<br> Mastery Points: ".number_format($summoner_test->mastery_info[0]->championPoints, 0,'.',',');
-        if(empty($summoner_test->rank_info))
+        if(empty($summoner_test->rank_queues))
         {
             echo "<b><br>This summoner has not played 8 ranked games yet.</b>";
         }
         else
         {
-            echo "<br>Tier: ".$summoner_test->rank_info["tier"]."<br>Division: ".$summoner_test->rank_info["division"];
-            echo "<br>Winrate: ".$summoner_test->rank_info["winrate"]."%";
+             //I used the w3schools guide on how to make tabs with javascript for this bit here. https://www.w3schools.com/howto/howto_js_tabs.asp
+
+            /*The main thing I wanted the rank info tabs to be was dynamic, I wanted them to be able to display only the modes that they have placed in.
+            So to do this I came up with this system that creates a string of HTML to use in the HEREDOC below. It runs through each array inside of the
+            summoner object to gather the ranked information needed to format onto the page. Then it switches on the queue_type key for the values of each
+            queue type. Then it will create a div for the tab and the tab's contents, the former just being the name of the queue and the latter being
+            their tier, division, winrate and league points. How it's set up now it will create a unique div for each queue type and only for the queue types 
+            that the summoner has actually played.  */
+            echo "<b><br> Ranked Information:</b>";
+            foreach($summoner_test->rank_queues as $value)
+                {
+                    switch($value['queue_type'])
+                    {
+                        case "RANKED_SOLO_5x5":
+                        $tabs .= '<button class="tablinks" onclick="openRank(event, \'5v5\')" id="defaultOpen">Rift 5v5</button>';
+                        $tab_content .= '<div id="5v5" class="tabcontent">';
+                        break;
+                        case "RANKED_FLEX_SR":
+                        $tabs .= '<button class="tablinks" onclick="openRank(event, \'Flex\')" id="defaultOpen">Rift Flex</button>';
+                        $tab_content .= '<div id="Flex" class="tabcontent">';
+                        break;
+                        case "RANKED_TFT":
+                        $tabs .= '<button class="tablinks" onclick="openRank(event, \'TFT\')" id="defaultOpen">Teamfight Tactics</button>';
+                        $tab_content .= '<div id="TFT" class="tabcontent">';
+                        break;
+                        case "RANKED_FLEX_TT":
+                        $tabs .= '<button class="tablinks" onclick="openRank(event, \'TT\')" id="defaultOpen">Twisted Treeline</button>';
+                        $tab_content .= '<div id="TT" class="tabcontent">';
+                    }
+                    $tab_content .= "Tier: ".$value['tier']."<br>Division: ".$value['division']."<br>".$value['lp']." lp"."<br>Winrate: ".$value['winrate']."%<br></div>";
+                    
+                }
+
+            echo <<<_END
+            <!-- The tabs themselves -->
+            <div class="tab">
+            $tabs
+            </div>
+            
+            <!-- Tab content -->
+            $tab_content
+            <!-- First the script will click on the tab with the ID "defaultOpen". Then the function will declare the variables used, get all 
+            elements that have a class of "tabcontent" and hide them. Then it will get all the eleemnts with the class "tablinks" 
+            and remove the class "active". Then it will show the current tab and add an "active" class to the button that was used to open the tab. -->
+            <script>
+            document.getElementById("defaultOpen").click();
+            function openRank(evt, rankName) {
+                var i, tabcontent, tablinks;
+                tabcontent = document.getElementsByClassName("tabcontent");
+                for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+                }
+                tablinks = document.getElementsByClassName("tablinks");
+                for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+                }
+                document.getElementById(rankName).style.display = "block";
+                evt.currentTarget.className += " active";
+            }
+            </script>
+_END;
         }
         if($some_game->game_info != null)
         {

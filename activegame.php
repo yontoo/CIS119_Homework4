@@ -11,7 +11,7 @@
             // var_dump($this->json_contents);
             if ($this->decoded == null)
             {
-                throw new Exception("<br><b>Error getting information.</b><br>");
+                throw new Exception("<br><b>Error getting game information.</b><br>");
             }
 
             return $this->decoded;

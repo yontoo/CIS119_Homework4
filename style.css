@@ -1,8 +1,51 @@
-/* table, th, td{
-    border: 1px solid black;
-} */
+#game h2{
+    text-align: center;
+}
 
-#game, th, td{
+#game table, th, td{
     border: 1px solid black;
     margin: 1em auto 1em auto;
 }
+
+ /* Style the tab */
+ .tab {
+    overflow: hidden;
+    border: 1px solid #ccc;
+    background-color: #f1f1f1;
+    /* I used this page: https://www.steckinsights.com/shorten-length-border-bottom-pure-css/ to help with clipping down the tab border so it didn't 
+    take up the entire page.*/
+    content: ""; /* This is necessary for the pseudo element to work. */ 
+    display: block; /* This will put the pseudo element on its own line. */
+    width: 20.625em; /*14.25emChange this to whatever width you want.*/
+  }
+  
+  /* Style the buttons that are used to open the tab content */
+  .tab button {
+    background-color: inherit;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 0.875em 1em;
+    transition: 0.3s;
+  }
+  
+  /* Change background color of buttons on hover */
+  .tab button:hover {
+    background-color: #ddd;
+  }
+  
+  /* Create an active/current tablink class */
+  .tab button.active {
+    background-color: #ccc;
+  }
+  
+  /* Style the tab content */
+  .tabcontent {
+    content: "";
+    display: none;
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    border-top: none;
+    width: 20.625em;
+  } 

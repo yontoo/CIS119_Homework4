@@ -72,13 +72,18 @@
                 $this->rank_json = $this->getJson("https://na1.api.riotgames.com/lol/league/v4/entries/by-summoner/".$this->summ_id."?api_key=".$this->key);
                 if(!empty($this->rank_json))
                 {
-                    $this->winrate = number_format(($this->rank_json[0]->wins/($this->rank_json[0]->wins + $this->rank_json[0]->losses))*100);
-                    $this->rank_info = array('tier'=>$this->rank_json[0]->tier, 'division'=>$this->rank_json[0]->rank, 'winrate'=>$this->winrate);
+                    $this->rank_queues = array();
+                    $count = 0;
+                    /*Walks through the rank_json variable and grabs everything that we care about, in this case their total games(wins + losses), their winrate((wins/total games) * 100), their rank tier, division and how many lp(league points) they currently have. That data is put into a multidimensional array. */
+                    foreach($this->rank_json as $value)
+                    {
+                        $this->total_games = $this->rank_json[$count]->wins + $this->rank_json[$count]->losses;
+                        $this->winrate = number_format(($this->rank_json[$count]->wins/$this->total_games)*100);
+                        $this->rank_queues[$count] = array('tier'=>$this->rank_json[$count]->tier, 'division'=>$this->rank_json[$count]->rank, 'winrate'=>$this->winrate, 'lp'=>$this->rank_json[$count]->leaguePoints, 'queue_type'=>$value->queueType);
+                        $count++;
+                    }
                 }
                 $this->curr_ver = $this->getJson("https://ddragon.leagueoflegends.com/api/versions.json")[0];
-                // echo "<pre>";
-                // print_r($this->rank_json);
-                
             }
             private function getMastery()
             {
