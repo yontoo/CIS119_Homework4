@@ -2,11 +2,7 @@
 
 
 <!--TODO: 
-    Add active match search
-        -Add table of participants, 1 column per team and 1 row per player
-    More bootstrap
-    Maybe TFT if they create an API for it
-    Flesh out rank information for player
+    
      -->
 <?php
     include "summoner.php";
@@ -18,8 +14,6 @@
     function print_players()
     {
         global $some_game, $summoner_test;
-        // echo "<pre>";
-        // print_r($some_game->game_info->participants);
         echo "<div id=\"game\"><h2>Current Game</h2><table id=\"game\">";
         echo <<<_END
         <tr>
@@ -52,30 +46,21 @@ _END;
         </title>
     </head>
     <body>
-    <nav class="navbar navbar-expand-sm navbar-dark bg-primary">
+    <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
         <a class="navbar-brand text-white">Summoner Search</a>
         <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse" data-target="#collapsibleNavId" aria-controls="collapsibleNavId"
             aria-expanded="false" aria-label="Toggle navigation"></button>
         <div class="collapse navbar-collapse" id="collapsibleNavId">
             <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
                 <li class="nav-item active">
-                    <a class="nav-link" href="homework4-form.html">Home <span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Link</a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="dropdownId" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</a>
-                    <div class="dropdown-menu" aria-labelledby="dropdownId">
-                        <a class="dropdown-item" href="#">Action 1</a>
-                        <a class="dropdown-item" href="#">Action 2</a>
-                    </div>
+                    <a class="nav-link" href="homework4-form.html">Home<span class="sr-only">(current)</span></a>
                 </li>
             </ul>
             <form class="form-inline my-2 my-lg-0" action="homework4.php" method="get">
                 <input class="form-control mr-sm-2" type="text" placeholder="Summoner" name="summoner">
                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
             </form>
+            <a class="btn btn-dark my-2 my-sm-0 ml-2" href="login.php">Login</a>
         </div>
     </nav>
 
@@ -100,7 +85,7 @@ _END;
         }
         else
         {
-             //I used the w3schools guide on how to make tabs with javascript for this bit here. https://www.w3schools.com/howto/howto_js_tabs.asp
+             //I used the w3schools guide on how to make tabs with javascript as a baseline for this bit here. https://www.w3schools.com/howto/howto_js_tabs.asp
 
             /*The main thing I wanted the rank info tabs to be was dynamic, I wanted them to be able to display only the modes that they have placed in.
             So to do this I came up with this system that creates a string of HTML to use in the HEREDOC below. It runs through each array inside of the
@@ -144,6 +129,7 @@ _END;
             <!-- First the script will click on the tab with the ID "defaultOpen". Then the function will declare the variables used, get all 
             elements that have a class of "tabcontent" and hide them. Then it will get all the eleemnts with the class "tablinks" 
             and remove the class "active". Then it will show the current tab and add an "active" class to the button that was used to open the tab. -->
+            
             <script>
             document.getElementById("defaultOpen").click();
             function openRank(evt, rankName) {

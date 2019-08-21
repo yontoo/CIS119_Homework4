@@ -7,6 +7,25 @@
     margin: 1em auto 1em auto;
 }
 
+
+.login{
+  overflow: hidden;
+  border: 1px solid #ccc;
+  background-color: #f1f1f1;
+  content: "";
+  display: block;
+  width: 21.625em;
+  margin: 1em auto 1em auto;
+}
+
+.login-content{
+  padding: 0.5em 0em;
+}
+
+.login li{
+  list-style-type: none;
+}
+
  /* Style the tab */
  .tab {
     overflow: hidden;
@@ -16,7 +35,7 @@
     take up the entire page.*/
     content: ""; /* This is necessary for the pseudo element to work. */ 
     display: block; /* This will put the pseudo element on its own line. */
-    width: 20.625em; /*14.25emChange this to whatever width you want.*/
+    width: 20.625em; /*Change this to whatever width you want.*/
   }
   
   /* Style the buttons that are used to open the tab content */
