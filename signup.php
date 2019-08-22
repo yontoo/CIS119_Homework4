@@ -9,6 +9,7 @@
     </head>
     <body>
     <?php
+        session_start();
     // TODO: FINISH THIS AND LOGIN PAGE AND GET SESSIONS WORKING
         if(isset($_POST["username"]) && isset($_POST["password"]))
         {
@@ -32,10 +33,10 @@
 
             if ($conn->query($sql) === TRUE) {
             echo <<<_END
-            Login successful.
-            Redirecting you to the main page in 3 seconds.
+            Sign up successful.
+            Redirecting you to the login page in 3 seconds.
             <script type="text/JavaScript">
-                setTimeout("window.location.href = 'homework4.php';",3000);
+                setTimeout("window.location.href = 'login.php';",3000);
             </script>
 _END;
             die();  
