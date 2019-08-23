@@ -1,3 +1,5 @@
+<!-- Code for signing up to the site, accesses SQL database. -->
+
 <!DOCTYPE html>
 <html lang="en">
     <head>

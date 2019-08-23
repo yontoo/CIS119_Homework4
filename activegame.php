@@ -1,3 +1,5 @@
+<!-- Class file for the active game object. -->
+
 <?php
     class ActiveGame
     {

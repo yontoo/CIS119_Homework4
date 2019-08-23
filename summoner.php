@@ -1,3 +1,5 @@
+<!-- Class file for the Summoner object. Most of the API parsing happens here. -->
+
 <?php
 
         class Summoner

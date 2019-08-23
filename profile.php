@@ -1,3 +1,6 @@
+<!-- Page for users with an account. 
+They can unlink a summoner if they already have one linked or link a summoner if they didn't do it at sign up.-->
+
 <!DOCTYPE html>
 <html lang="en">
     <head>

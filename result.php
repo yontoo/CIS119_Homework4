@@ -1,5 +1,5 @@
 <!-- Just as a precursor, some of the functions don't work without a valid API key inside of a file called "apikey.php". -->
-
+<!-- This is the code for the page that you see after completing a search. -->
 
 <?php
     include "summoner.php";

@@ -1,3 +1,5 @@
+<!-- Destination page for logging out -->
+
 <!DOCTYPE html>
 <html>
      <head>   

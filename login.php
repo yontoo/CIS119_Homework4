@@ -1,3 +1,5 @@
+<!-- Page where you log in and are validated against the SQL database. -->
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
