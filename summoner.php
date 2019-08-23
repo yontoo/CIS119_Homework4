@@ -14,8 +14,27 @@
             
             public function getJson($json_link)
             {
-                $this->json_contents=file_get_contents($json_link);
-                return json_decode($this->json_contents);
+                try{
+                    $this->headers = get_headers($json_link);
+                    if($this->headers[0] == "HTTP/1.1 200 OK")
+                    {
+                        $this->json_contents = file_get_contents($json_link);
+                        $this->decoded = json_decode($this->json_contents);
+                    }
+                    else if($this->headers[0] == "HTTP/1.1 404 Not Found")
+                    {
+                        throw new Exception("<b>Summoner not found</b><br>");
+                    }
+                    else
+                    {
+                        throw new Exception("<b>Fatal error.</b><br>");
+                    }
+                } catch (Exception $excep)
+                {
+                    $this->error_count++;
+                    $this->error[$this->error_count-1] = $excep->getMessage();
+                }
+                    return $this->decoded;
             }
 
             public function getProfileIcon()

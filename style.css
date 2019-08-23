@@ -36,6 +36,7 @@
     content: ""; /* This is necessary for the pseudo element to work. */ 
     display: block; /* This will put the pseudo element on its own line. */
     width: 20.625em; /*Change this to whatever width you want.*/
+    margin: 0em auto 0em auto;
   }
   
   /* Style the buttons that are used to open the tab content */
@@ -47,6 +48,7 @@
     cursor: pointer;
     padding: 0.875em 1em;
     transition: 0.3s;
+
   }
   
   /* Change background color of buttons on hover */
@@ -67,4 +69,5 @@
     border: 1px solid #ccc;
     border-top: none;
     width: 20.625em;
+    margin: 0em auto 0em auto;
   } 
